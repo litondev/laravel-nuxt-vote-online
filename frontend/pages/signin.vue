@@ -63,6 +63,9 @@
                       </span>
                     </button>                 
                   </div>
+                  <div class="col-6 text-right">
+                    <nuxt-link to="/signup">Daftar</nuxt-link>       
+                  </div>
                 </div>
               </form>  
 
@@ -91,15 +94,17 @@ export default{
 
 	layout : 'empty',
 
-	mounted(){
-	    window.$("body").addClass("hold-transition login-page");
+	mounted(){  
+   window.$("body").removeClass("sidebar-collapse");
+   window.$("body").attr({"style" : ""});
+	 window.$("body").addClass("hold-transition login-page");  
 	},
 	
-	destroyed(){
-    setTimeout(() => {
-	    window.$("body").removeClass("hold-transition login-page");
-    },3000);
-	},
+	// destroyed(){
+    // setTimeout(() => {
+	   //  window.$("body").removeClass("hold-transition login-page");
+    // },25);
+	// },
 
 	data(){
 		return {

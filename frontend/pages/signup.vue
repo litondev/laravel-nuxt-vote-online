@@ -19,7 +19,19 @@
                	<ValidationProvider 
                		name="username"
                		rules="required">
-               		
+               		<div class="input-group mb-3"                
+                      slot-scope="{errors,valid}">
+                      <input class="form-control" 
+                        type="text"               
+                        placeholder="Username"
+                        name="username"
+                        v-model="form.username" 
+                        :class="errors[0] ? 'is-invalid' : ''"/>
+
+                      <div class="invalid-feedback" v-if="errors[0]">
+                        {{ errors[0] }}
+                      </div>                                 
+                  </div>
                	</ValidationProvider>
 
                 <ValidationProvider 
@@ -65,9 +77,12 @@
                         ...
                       </span>
                       <span v-else>
-                        Signin
+                        Signup
                       </span>
                     </button>                 
+                  </div>
+                  <div class="col-6 text-right">
+                    <nuxt-link to="/signin">Masuk</nuxt-link>
                   </div>
                 </div>
               </form>  
@@ -97,20 +112,23 @@ export default{
 
   layout : 'empty',
 
-  mounted(){
-	window.$("body").addClass("hold-transition login-page");
+  mounted(){  
+   window.$("body").removeClass("sidebar-collapse");
+   window.$("body").attr({"style" : ""});
+   window.$("body").addClass("hold-transition login-page");  
   },
 	
   destroyed(){
-    setTimeout(() => {
-	    window.$("body").removeClass("hold-transition login-page");
-    },3000);
+    // setTimeout(() => {
+    //   window.$("body").removeClass("hold-transition login-page");
+    // },25);
   },
 
   data(){
 	return {
-     isLoadingForm : false,
+    isLoadingForm : false,
 		form : {
+      username : null,
 			email : null,
 			password : null
 		}
@@ -119,32 +137,48 @@ export default{
  
 	methods:{
 		onSubmit(isInvalid){	
-	  if(isInvalid){
-	    return false;
-	  }
+  	  if(isInvalid){
+  	    return false;
+  	  }
 
-	  if(this.isLoadingForm){
-	    return false;
-	  }
+  	  if(this.isLoadingForm){
+  	    return false;
+  	  }
 
-	  this.isLoadingForm = true;
+	    this.isLoadingForm = true;
 
-			this.$auth.login({
-			data: this.form,
-			}).then(res => {    
-	    this.$router.push("/");
+		  this.$axios.post("/signup",this.form)
+      .then(res => {    
+        this.onLogin();
 			}).catch(err => {
-	    this.isLoadingForm = false;
+  	    this.isLoadingForm = false;
 
-	    if(err.response && err.response.status === 422){
-	      this.$toaster.error(err.response.data.error);
-	    }else if(err.response && err.response.status === 500){
-	      this.$toaster.error(err.response.data.message);
-	    }else{
-	      this.$toaster.error('Terjadi Kesalahan');
-	    }
-	  })
-		}
+	     if(err.response && err.response.status === 422){
+	       this.$toaster.error(err.response.data.error);
+	     }else if(err.response && err.response.status === 500){
+	       this.$toaster.error(err.response.data.message);
+	     }else{
+	       this.$toaster.error('Terjadi Kesalahan');
+	     }  
+	   })
+		},
+    onLogin(){
+      this.$auth.login({
+        data: this.form,
+      }).then(res => {    
+        this.$router.push("/");
+      }).catch(err => {
+        this.isLoadingForm = false;
+
+        if(err.response && err.response.status === 422){
+          this.$toaster.error(err.response.data.error);
+        }else if(err.response && err.response.status === 500){
+          this.$toaster.error(err.response.data.message);
+        }else{
+          this.$toaster.error('Terjadi Kesalahan');
+        }
+      })
+    }
 	}
 }
 </script>

@@ -3,6 +3,10 @@ require('dotenv').config();
 export default {
   target: 'server',
 
+  router: {
+    middleware: "checkBeforeMove"
+  },
+
   server : {
     host: process.env.HOST
   },
@@ -50,6 +54,9 @@ export default {
   modules: [ 
     [
       '@nuxtjs/dotenv',{ systemvars: true }
+    ],
+    [
+      'cookie-universal-nuxt', { alias: 'cookiz' }
     ],
     '@nuxtjs/axios',
     '@nuxtjs/auth',

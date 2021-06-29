@@ -31,20 +31,29 @@
         </div>
 
         <ul class="list-group">
-          <li class="list-group-item border-0">
+          <li class="list-group-item border-0"
+            @click="sidebar = false">
             <nuxt-link to="/">Home</nuxt-link>
           </li>
-          <li class="list-group-item border-0" v-if="$auth.loggedIn">
+          <li class="list-group-item border-0" v-if="$auth.loggedIn"
+            @click="sidebar = false">
             <nuxt-link to="/profil">Profil</nuxt-link>
           </li>
-          <li class="list-group-item border-0" v-if="!$auth.loggedIn">
+          <li class="list-group-item border-0" v-if="!$auth.loggedIn"
+            @click="sidebar = false">
             <nuxt-link to="/signin">Masuk</nuxt-link>
           </li>
-          <li class="list-group-item border-0" v-if="!$auth.loggedIn">
+          <li class="list-group-item border-0" v-if="!$auth.loggedIn"
+            @click="sidebar = false">
             <nuxt-link to="/signup">Daftar</nuxt-link>
           </li>
           <li class="list-group-item border-0" v-if="$auth.loggedIn">
-            <a href="#" @click="logout()">Logout</a>
+            <a href="#" @click="logout()">
+              Logout
+              <span v-if="isLoadingLogout">
+              ...
+              </span>
+            </a>
           </li>
         </ul>
       </div>
@@ -59,20 +68,29 @@
 export default{
   data(){
     return {
-      sidebar : false
+      sidebar : false,
+      isLoadingLogout : false
     }
   },
 
   mounted(){    
+      window.$("body").removeClass("hold-transition login-page");
       window.$("body").addClass("sidebar-collapse");
   },
-  destroyed(){
-      window.$("body").removeClass("sidebar-collapse");
-  },
+  // destroyed(){
+  //     window.$("body").removeClass("sidebar-collapse");
+  // },
   methods: {
     logout(){
+     if(this.isLoadingLogout){
+      return false     
+     }
+
+     this.isLoadingLogout = true;
+
      this.$auth.logout()
      .then(res => {
+       this.isLoadingLogout = false;
        this.sidebar = false;
        this.$router.push("/");  
      })

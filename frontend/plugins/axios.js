@@ -4,11 +4,11 @@ export default function ({app,$axios,redirect}) {
 		throw err;
 	}
 
-	// if(err.response.status === 503 && !localStorage.getItem("maintaince")){		
-	// 	localStorage.setItem('maintaince',true);
-	// 	window.location = "/maintaince";			
-	// 	return false;
-	// }
+	if(err.response.status === 503 && !app.$cookiz.get("maintaince")){		
+		app.$cookiz.set('maintaince',true);
+		redirect("/maintaince")
+		return false;
+	}
 
 	if(err.response.status !== 401){
 		throw err;

@@ -1,6 +1,6 @@
 <template>
 	<div id="loading" v-if="loading" class="text-center">
-		<div class="mt-4 mb-4">
+		<div class="mt-5 pt-5">
 			<i class="fas fa-spinner fa-spin fa-3x"></i>
 			<br/>
 			<div class="d-inline-block mt-3 mb-3">
