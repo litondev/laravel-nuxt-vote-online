@@ -1,0 +1,11 @@
+username
+ => string 50
+
+email
+ => string 50
+
+password
+ => text
+
+photo
+ => string 25

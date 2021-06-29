@@ -1,0 +1,8 @@
+vote_id
+ => int
+
+name
+ => string 50
+
+votes
+ => int

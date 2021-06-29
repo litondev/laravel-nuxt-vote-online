@@ -1,0 +1,5 @@
+select_id
+ => int
+
+user_id
+ => int

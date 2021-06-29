@@ -1,0 +1,11 @@
+name
+ => string 50
+
+candidats
+ => int
+
+start_at
+ => timestamp
+
+end_at
+ => timestamp
