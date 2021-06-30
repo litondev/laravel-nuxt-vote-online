@@ -47,6 +47,10 @@
             @click="sidebar = false">
             <nuxt-link to="/signup">Daftar</nuxt-link>
           </li>
+          <li class="list-group-item border-0" v-if="$auth.loggedIn"
+            @click="sidebar = false">
+            <nuxt-link to="/user-votes">User Vote</nuxt-link>
+          </li>
           <li class="list-group-item border-0" v-if="$auth.loggedIn">
             <a href="#" @click="logout()">
               Logout

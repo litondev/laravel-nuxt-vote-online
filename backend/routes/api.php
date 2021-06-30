@@ -15,8 +15,16 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::group(["namespace" => "User"],function(){
+Route::group(["namespace" => "User","middleware" => "maintaince"],function(){
+	Route::get("/check",function(){
+		return response()->json([
+			"status" => "Success",
+			"message" => "Ok"
+		]);
+	});
+	
 	Route::post("/signin","AuthController@signin");
+	Route::post("/signup","AuthController@signup");
 	
 	Route::group(["middleware" => "jwt-refresh"],function(){
 		Route::post("/refresh","AuthController@refresh");
@@ -25,5 +33,12 @@ Route::group(["namespace" => "User"],function(){
 	Route::group(["middleware" => "jwt"],function(){
 		Route::post("/logout","AuthController@logout");
 		Route::get("/me","AuthController@me");
+		
+		Route::apiResource("user-vote","UserVoteController");
+
+		Route::group(["prefix" => "profil"],function(){
+			Route::post("/upload","ProfilController@upload");
+			Route::post("/update","ProfilController@update");
+		});
 	});
 });

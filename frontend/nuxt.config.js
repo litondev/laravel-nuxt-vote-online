@@ -47,7 +47,8 @@ export default {
 
   plugins: [
   { src:"~/plugins/vee-validate", ssr: false },
-  '~/plugins/toaster',
+  { src:'~/plugins/toaster',ssr: false },
+  { src:"~/plugins/vue-lazyload",ssr: false},
    '~/plugins/axios',    
   ],
 

@@ -1,6 +1,9 @@
 name
  => string 50
 
+user_id
+ => int
+ 
 candidats
  => int
 

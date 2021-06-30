@@ -16,6 +16,7 @@ class CreateVotesTable extends Migration
         Schema::create('votes', function (Blueprint $table) {
             $table->id();
             $table->string("name",50);
+            $table->bigInteger("user_id")->unsigned();
             $table->bigInteger("candidats")->default(2);
             $table->timestamp("start_at")->nullable();
             $table->timestamp("end_at")->nullable();

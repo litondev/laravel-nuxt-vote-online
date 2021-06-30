@@ -7,10 +7,29 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Http\Requests\{
     SigninRequest,
+    SignupRequest
 };
 
 class AuthController extends Controller
 {
+    public function signup(SignupRequest $request){
+        try{
+            throw_if(!User::create($request->validated()),new \Exception("Terjadi Kesalahan"));
+
+            return response()->json([
+                "status" => "Success",
+                "message" => "Berhasil"
+            ],201);
+        }catch(\Exception $e){
+            \Log::channel("coex")->info($e->getMessage());
+
+            return response()->json([
+                "status" => "Failed",
+                "message" => "Terjadi Kesalahan"
+            ],500);
+        }
+    }
+
     public function signin(SigninRequest $request)
     {    
         try{

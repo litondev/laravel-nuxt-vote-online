@@ -27,6 +27,14 @@ class User extends Authenticatable implements JWTSubject
         return [];
     }
 
+    public function user_votes(){
+        return $this->hasMany(UserVote::class);
+    }
+
+    public function votes(){
+        return $this->hasMany(Vote::class);
+    }
+
     public function setPasswordAttribute($value){
         $this->attributes['password'] = \Hash::make($value); 
     }
